@@ -14,7 +14,6 @@ public class TaskRecord {
 
     private String taskName;
     private String requiredSkill;
-    private String requiredSkillLevel;
     private String priority;
     private String status;
 
@@ -23,13 +22,11 @@ public class TaskRecord {
 
     public TaskRecord(long id, String taskName,
                       String requiredSkill,
-                      String requiredSkillLevel,
                       String priority,
                       String status) {
         this.id = id;
         this.taskName = taskName;
         this.requiredSkill = requiredSkill;
-        this.requiredSkillLevel = requiredSkillLevel;
         this.priority = priority;
         this.status = status;
     }
@@ -56,14 +53,6 @@ public class TaskRecord {
 
     public void setRequiredSkill(String requiredSkill) {
         this.requiredSkill = requiredSkill;
-    }
-
-    public String getRequiredSkillLevel() {
-        return requiredSkillLevel;
-    }
-
-    public void setRequiredSkillLevel(String requiredSkillLevel) {
-        this.requiredSkillLevel = requiredSkillLevel;
     }
 
     public String getPriority() {
