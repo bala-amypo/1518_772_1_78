@@ -12,20 +12,20 @@ import com.example.demo.service.VolunteerSkillService;
 public class VolunteerSkillController {
 
     @Autowired
-    private VolunteerSkillService volunteerSkillService;
+    private VolunteerSkillService skillService;
 
     @PostMapping("/addskill")
     public VolunteerSkill add(@RequestBody VolunteerSkill vs) {
-        return volunteerSkillService.createSkill(vs);
+        return skillService.createskill(vs);
     }
 
     @GetMapping("/showskills")
     public List<VolunteerSkill> show() {
-        return volunteerSkillService.getAllSkills();
+        return skillService.getallskills();
     }
 
-    @GetMapping("/skill/{volunteerId}")
+    @GetMapping("/skills/{volunteerId}")
     public List<VolunteerSkill> getByVolunteer(@PathVariable long volunteerId) {
-        return volunteerSkillService.getSkillsByVolunteerId(volunteerId);
+        return skillService.getskillsbyvolunteer(volunteerId);
     }
 }

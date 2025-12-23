@@ -9,24 +9,23 @@ import com.example.demo.entity.VolunteerSkill;
 import com.example.demo.repository.VolunteerSkillRepository;
 
 @Service
-public class VolunteerSkillServiceImpl
-        implements VolunteerSkillService {
+public class VolunteerSkillServiceImpl implements VolunteerSkillService {
 
     @Autowired
     private VolunteerSkillRepository skillRepo;
 
     @Override
-    public VolunteerSkill createSkill(VolunteerSkill skill) {
+    public VolunteerSkill createskill(VolunteerSkill skill) {
         return skillRepo.save(skill);
     }
 
     @Override
-    public List<VolunteerSkill> getAllSkills() {
+    public List<VolunteerSkill> getallskills() {
         return skillRepo.findAll();
     }
 
     @Override
-    public List<VolunteerSkill> getSkillsByVolunteerId(long volunteerId) {
+    public List<VolunteerSkill> getskillsbyvolunteer(long volunteerId) {
         return skillRepo.findByVolunteerId(volunteerId);
     }
 }
