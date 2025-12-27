@@ -12,33 +12,59 @@ public class TaskAssignmentRecord {
     private Long id;
 
     private Long taskId;
-
     private Long volunteerId;
 
-    private LocalDateTime assignedAt;
+    // ✅ DEFAULT TIMESTAMP
+    private LocalDateTime assignedAt = LocalDateTime.now();
 
-    private String status; // ACTIVE / COMPLETED / CANCELLED
+    // ✅ DEFAULT STATUS
+    private String status = "ACTIVE";
 
     @PrePersist
     public void prePersist() {
-        this.assignedAt = LocalDateTime.now();
-        if (this.status == null) {
-            this.status = "ACTIVE";
-        }
+        if (assignedAt == null) assignedAt = LocalDateTime.now();
+        if (status == null) status = "ACTIVE";
     }
 
-    // Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // ===== Getters & Setters =====
 
-    public Long getTaskId() { return taskId; }
-    public void setTaskId(Long taskId) { this.taskId = taskId; }
+    public Long getId() {
+        return id;
+    }
 
-    public Long getVolunteerId() { return volunteerId; }
-    public void setVolunteerId(Long volunteerId) { this.volunteerId = volunteerId; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public LocalDateTime getAssignedAt() { return assignedAt; }
+    public Long getTaskId() {
+        return taskId;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
+    public Long getVolunteerId() {
+        return volunteerId;
+    }
+
+    public void setVolunteerId(Long volunteerId) {
+        this.volunteerId = volunteerId;
+    }
+
+    public LocalDateTime getAssignedAt() {
+        return assignedAt;
+    }
+
+    public void setAssignedAt(LocalDateTime assignedAt) {
+        this.assignedAt = assignedAt;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
