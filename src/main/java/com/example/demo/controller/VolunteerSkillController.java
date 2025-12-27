@@ -1,31 +1,33 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.model.VolunteerSkillRecord;
+import com.example.demo.service.VolunteerSkillService;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.VolunteerSkill;
-import com.example.demo.service.VolunteerSkillService;
+import java.util.List;
 
 @RestController
+@RequestMapping("/skills")
 public class VolunteerSkillController {
 
-    @Autowired
-    private VolunteerSkillService skillService;
+    private final VolunteerSkillService service;
 
-    @PostMapping("/addskill")
-    public VolunteerSkill add(@RequestBody VolunteerSkill vs) {
-        return skillService.createskill(vs);
+    public VolunteerSkillController(VolunteerSkillService service) {
+        this.service = service;
     }
 
-    @GetMapping("/showskills")
-    public List<VolunteerSkill> show() {
-        return skillService.getallskills();
+    @PostMapping
+    public VolunteerSkillRecord save(@RequestBody VolunteerSkillRecord skill) {
+        return service.addOrUpdateSkill(skill);
     }
 
-    @GetMapping("/skills/{volunteerId}")
-    public List<VolunteerSkill> getByVolunteer(@PathVariable long volunteerId) {
-        return skillService.getskillsbyvolunteer(volunteerId);
+    @GetMapping
+    public List<VolunteerSkillRecord> all() {
+        return service.getAllSkills();
+    }
+
+    @GetMapping("/{id}")
+    public VolunteerSkillRecord get(@PathVariable Long id) {
+        return service.getSkillById(id);
     }
 }

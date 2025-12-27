@@ -1,36 +1,41 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.TaskAssignmentRecord;
-import com.example.demo.service.TaskAssignmentService;
+import com.example.demo.model.TaskRecord;
+import com.example.demo.service.TaskRecordService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/assignments")
-public class TaskAssignmentController {
+@RequestMapping("/tasks")
+public class TaskRecordController {
 
-    private final TaskAssignmentService service;
+    private final TaskRecordService service;
 
-    public TaskAssignmentController(TaskAssignmentService service) {
+    public TaskRecordController(TaskRecordService service) {
         this.service = service;
     }
 
-    @PostMapping("/{taskId}")
-    public TaskAssignmentRecord assign(@PathVariable Long taskId) {
-        return service.assignTask(taskId);
+    @PostMapping
+    public TaskRecord create(@RequestBody TaskRecord task) {
+        return service.createTask(task);
     }
 
-    @PutMapping("/{id}/status")
-    public TaskAssignmentRecord updateStatus(
+    @PutMapping("/{id}")
+    public TaskRecord update(
             @PathVariable Long id,
-            @RequestParam String status) {
+            @RequestBody TaskRecord task) {
 
-        return service.updateAssignmentStatus(id, status);
+        return service.updateTask(id, task);
     }
 
     @GetMapping
-    public List<TaskAssignmentRecord> all() {
-        return service.getAllAssignments();
+    public List<TaskRecord> all() {
+        return service.getAllTasks();
+    }
+
+    @GetMapping("/open")
+    public List<TaskRecord> openTasks() {
+        return service.getOpenTasks();
     }
 }

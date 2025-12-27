@@ -1,29 +1,36 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.TaskAssignmentRecord;
+import com.example.demo.service.TaskAssignmentService;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.example.demo.entity.TaskAssignmentRecord;
-import com.example.demo.service.TaskAssignmentRecordService;
-
 @RestController
-public class TaskAssignmentRecordController {
+@RequestMapping("/assignments")
+public class TaskAssignmentController {
 
-    @Autowired
-    private TaskAssignmentRecordService assignmentService;
+    private final TaskAssignmentService service;
 
-    @PostMapping("/addassignment")
-    public TaskAssignmentRecord add(@RequestBody TaskAssignmentRecord assignment) {
-        return assignmentService.createassignment(assignment);
+    public TaskAssignmentController(TaskAssignmentService service) {
+        this.service = service;
     }
 
-    @GetMapping("/showassignments")
-    public List<TaskAssignmentRecord> show() {
-        return assignmentService.getallassignments();
+    @PostMapping("/{taskId}")
+    public TaskAssignmentRecord assign(@PathVariable Long taskId) {
+        return service.assignTask(taskId);
+    }
+
+    @PutMapping("/{id}/status")
+    public TaskAssignmentRecord updateStatus(
+            @PathVariable Long id,
+            @RequestParam String status) {
+
+        return service.updateAssignmentStatus(id, status);
+    }
+
+    @GetMapping
+    public List<TaskAssignmentRecord> all() {
+        return service.getAllAssignments();
     }
 }

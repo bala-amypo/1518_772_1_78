@@ -1,38 +1,41 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.model.VolunteerProfile;
+import com.example.demo.service.VolunteerProfileService;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.VolunteerProfile;
-import com.example.demo.service.VolunteerProfileService;
+import java.util.List;
 
 @RestController
+@RequestMapping("/volunteers")
 public class VolunteerProfileController {
 
-    @Autowired
-    private VolunteerProfileService volunteerProfileService;
+    private final VolunteerProfileService service;
 
-    @PostMapping("/addvolunteer")
-    public VolunteerProfile add(@RequestBody VolunteerProfile vp) {
-        return volunteerProfileService.createVolunteer(vp);
+    public VolunteerProfileController(VolunteerProfileService service) {
+        this.service = service;
     }
 
-    @GetMapping("/showvolunteers")
-    public List<VolunteerProfile> show() {
-        return volunteerProfileService.getAllVolunteers();
+    @PostMapping
+    public VolunteerProfile create(@RequestBody VolunteerProfile profile) {
+        return service.createVolunteer(profile);
     }
 
-    @GetMapping("/volunteer/{id}")
-    public VolunteerProfile getById(@PathVariable long id) {
-        return volunteerProfileService.getVolunteerById(id);
+    @GetMapping("/{id}")
+    public VolunteerProfile get(@PathVariable Long id) {
+        return service.getVolunteerById(id);
     }
 
-    @PutMapping("/volunteer/{id}/availability")
+    @GetMapping
+    public List<VolunteerProfile> all() {
+        return service.getAllVolunteers();
+    }
+
+    @PutMapping("/{id}/availability")
     public VolunteerProfile updateAvailability(
-            @PathVariable long id,
-            @RequestParam String availabilityStatus) {
-        return volunteerProfileService.updateAvailability(id, availabilityStatus);
+            @PathVariable Long id,
+            @RequestParam String status) {
+
+        return service.updateAvailability(id, status);
     }
 }
