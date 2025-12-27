@@ -1,43 +1,44 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.JwtTokenProvider;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.demo.entity.User;
-import com.example.demo.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private UserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
 
-    // REGISTER
-    @PostMapping("/register")
-    public User register(@RequestBody User user) {
-        return userService.createuser(user);
+    public AuthController(AuthenticationManager authenticationManager,
+                          JwtTokenProvider jwtTokenProvider,
+                          UserRepository userRepository) {
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.userRepository = userRepository;
     }
 
-    // LOGIN
     @PostMapping("/login")
-    public String login(@RequestBody User user) {
-        List<User> users = userService.getallusers();
+    public String login(@RequestParam String username,
+                        @RequestParam String password) {
 
-        for (User u : users) {
-            if (u.getEmail().equals(user.getEmail()) && u.getPassword().equals(user.getPassword())) {
-                return "Login successful for user: " + u.getName();
-            }
-        }
+        Authentication authentication =
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                username, password));
 
-        return "Invalid email or password";
-    }
+        User user = userRepository.findByUsername(username).orElseThrow();
 
-    // OPTIONAL: Get all users (for testing)
-    @GetMapping("/all")
-    public List<User> getAllUsers() {
-        return userService.getallusers();
+        return jwtTokenProvider.generateToken(
+                authentication,
+                user.getId(),
+                user.getRole()
+        );
     }
 }
