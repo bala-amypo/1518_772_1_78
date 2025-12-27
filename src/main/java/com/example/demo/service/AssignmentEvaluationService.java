@@ -1,12 +1,20 @@
 package com.example.demo.service;
 
+
+import com.example.demo.model.AssignmentEvaluationRecord;
+
+
 import java.util.List;
 
-import com.example.demo.entity.AssignmentEvaluation;
 
 public interface AssignmentEvaluationService {
 
-    AssignmentEvaluation createevaluation(AssignmentEvaluation evaluation);
 
-    List<AssignmentEvaluation> getallevaluations();
+    AssignmentEvaluationRecord evaluateAssignment(AssignmentEvaluationRecord evaluation);
+
+
+    List<AssignmentEvaluationRecord> getEvaluationsByAssignment(Long assignmentId);
+
+
+    List<AssignmentEvaluationRecord> getAllEvaluations();
 }

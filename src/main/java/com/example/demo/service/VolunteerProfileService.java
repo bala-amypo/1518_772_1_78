@@ -1,15 +1,27 @@
 package com.example.demo.service;
 
+
+import com.example.demo.model.VolunteerProfile;
+
+
 import java.util.List;
-import com.example.demo.entity.VolunteerProfile;
+import java.util.Optional;
+
 
 public interface VolunteerProfileService {
 
-    VolunteerProfile createVolunteer(VolunteerProfile volunteer);
+
+    VolunteerProfile createVolunteer(VolunteerProfile profile);
+
+
+    VolunteerProfile getVolunteerById(Long id);
+
 
     List<VolunteerProfile> getAllVolunteers();
 
-    VolunteerProfile getVolunteerById(long id);
 
-    VolunteerProfile updateAvailability(long id, String availabilityStatus);
+    Optional<VolunteerProfile> findByVolunteerId(String volunteerId);
+
+
+    VolunteerProfile updateAvailability(Long id, String availabilityStatus);
 }
